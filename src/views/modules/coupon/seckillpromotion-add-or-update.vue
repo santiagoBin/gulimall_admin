@@ -21,6 +21,7 @@
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
+          value-format="yyyy-MM-dd HH:mm:ss"
         ></el-date-picker>
       </el-form-item>
       <el-form-item label="上下线状态" prop="status">

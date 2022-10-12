@@ -15,10 +15,10 @@
         <el-input v-model="dataForm.name" placeholder="场次名称"></el-input>
       </el-form-item>
       <el-form-item label="每日开始时间" prop="startTime">
-        <el-date-picker type="datetime" placeholder="每日开始时间" v-model="dataForm.startTime"></el-date-picker>
+        <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="每日开始时间" v-model="dataForm.startTime" ></el-date-picker>
       </el-form-item>
       <el-form-item label="每日结束时间" prop="endTime">
-        <el-date-picker type="datetime" placeholder="每日结束时间" v-model="dataForm.endTime"></el-date-picker>
+        <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" type="datetime" placeholder="每日结束时间" v-model="dataForm.endTime" ></el-date-picker>
       </el-form-item>
       <el-form-item label="启用状态" prop="status">
         <el-input v-model="dataForm.status" placeholder="启用状态"></el-input>
@@ -85,6 +85,39 @@ export default {
         }
       });
     },
+    format(date,format){
+
+//替换 year yyyy
+      format = format.replace("yyyy",date.getFullYear().toString());
+
+
+//替换 month MM  this.getMonth()返回0-11
+      format = format.replace("MM",(date.getMonth()+1).toString());
+
+
+//替换 day dd
+      format = format.replace("dd",date.getDate().toString());
+
+
+//替换 hour HH
+      format = format.replace("HH",date.getHours().toString());
+
+
+//替换 minutes mm
+      format = format.replace("mm",date.getMinutes().toString());
+
+
+//替换 seconds ss
+      format = format.replace("ss",date.getSeconds().toString());
+
+
+//替换 weekdays ww  this.getDay()返回的是0-6
+//       format = format.replace("ww",this.getWeekday(this.getDay()));
+
+
+      return format;
+
+    },
     // 表单提交
     dataFormSubmit() {
       this.$refs["dataForm"].validate(valid => {
@@ -100,7 +133,7 @@ export default {
               startTime: this.dataForm.startTime,
               endTime: this.dataForm.endTime,
               status: this.dataForm.status,
-              createTime: new Date()
+              createTime: this.format(new Date(),"yyyy-MM-dd HH:mm:ss")
             })
           }).then(({ data }) => {
             if (data && data.code === 0) {
